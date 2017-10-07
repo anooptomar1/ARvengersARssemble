@@ -91,7 +91,11 @@ extension ViewController: VirtualObjectSelectionViewControllerDelegate {
         guard let objectIndex = virtualObjectLoader.loadedObjects.index(of: object) else {
             fatalError("Programmer error: Failed to lookup virtual object in scene.")
         }
+
         virtualObjectLoader.removeVirtualObject(at: objectIndex)
+        sceneView.scene.rootNode.enumerateChildNodes { (node, stop) -> Void in
+            node.removeFromParentNode()
+        }
     }
 
     // MARK: Object Loading UI

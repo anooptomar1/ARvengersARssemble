@@ -65,33 +65,33 @@ class VirtualObjectInteraction: NSObject, UIGestureRecognizerDelegate, SCNPhysic
     
     @objc
     func didPan(_ gesture: ThresholdPanGesture) {
-//        switch gesture.state {
-//        case .began:
-//            // Check for interaction with a new object.
-//            if let object = objectInteracting(with: gesture, in: sceneView) {
-//                trackedObject = object
-//            }
-//
-//        case .changed where gesture.isThresholdExceeded:
-//            guard let object = trackedObject else { return }
-//            let translation = gesture.translation(in: sceneView)
-//
-//            let currentPosition = currentTrackingPosition ?? CGPoint(sceneView.projectPoint(object.position))
-//            // The `currentTrackingPosition` is used to update the `selectedObject` in `updateObjectToCurrentTrackingPosition()`.
-//            currentTrackingPosition = CGPoint(x: currentPosition.x + translation.x, y: currentPosition.y + translation.y)
-//            currentTranslation = translation
-//
-//            gesture.setTranslation(.zero, in: sceneView)
-//
-//        case .changed:
-//            // Ignore changes to the pan gesture until the threshold for displacment has been exceeded.
-//            break
-//
-//        default:
-//            // Clear the current position tracking.
-//            currentTrackingPosition = nil
-//            trackedObject = nil
-//        }
+        switch gesture.state {
+        case .began:
+            // Check for interaction with a new object.
+            if let object = objectInteracting(with: gesture, in: sceneView) {
+                trackedObject = object
+            }
+
+        case .changed where gesture.isThresholdExceeded:
+            guard let object = trackedObject else { return }
+            let translation = gesture.translation(in: sceneView)
+
+            let currentPosition = currentTrackingPosition ?? CGPoint(sceneView.projectPoint(object.position))
+            // The `currentTrackingPosition` is used to update the `selectedObject` in `updateObjectToCurrentTrackingPosition()`.
+            currentTrackingPosition = CGPoint(x: currentPosition.x + translation.x, y: currentPosition.y + translation.y)
+            currentTranslation = translation
+
+            gesture.setTranslation(.zero, in: sceneView)
+
+        case .changed:
+            // Ignore changes to the pan gesture until the threshold for displacment has been exceeded.
+            break
+
+        default:
+            // Clear the current position tracking.
+            currentTrackingPosition = nil
+            trackedObject = nil
+        }
     }
 
     /**
@@ -190,15 +190,12 @@ class VirtualObjectInteraction: NSObject, UIGestureRecognizerDelegate, SCNPhysic
         pin.physicsBody?.categoryBitMask = 2
         pin.childNodes[0].geometry?.firstMaterial?.diffuse.contents = UIColor.red
         pin.childNodes[1].geometry?.firstMaterial?.diffuse.contents = UIColor.red
-//        pin.geometry?.firstMaterial?.diffuse.contents = UIColor.red
-        
     }
     
     func makeStuckPin(pin: SCNNode) {
         pin.physicsBody?.type = SCNPhysicsBodyType.kinematic
         pin.childNodes[0].geometry?.firstMaterial?.diffuse.contents = UIColor.green
         pin.childNodes[1].geometry?.firstMaterial?.diffuse.contents = UIColor.green
-
         pin.physicsBody?.physicsShape = SCNPhysicsShape(geometry: SCNCylinder(radius: 0.03, height: 0.1))
     }
     
