@@ -51,5 +51,6 @@ class VirtualObjectLoader {
         
         loadedObjects[index].removeFromParentNode()
         loadedObjects.remove(at: index)
+        
     }
 }
