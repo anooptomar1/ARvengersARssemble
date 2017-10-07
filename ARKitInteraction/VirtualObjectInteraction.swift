@@ -183,10 +183,15 @@ class VirtualObjectInteraction: NSObject, UIGestureRecognizerDelegate, SCNPhysic
         newPin.physicsBody?.collisionBitMask = 5
         newPin.physicsBody?.contactTestBitMask = 1
         
+        let billboardConstraint = SCNBillboardConstraint();
+        billboardConstraint.freeAxes = SCNBillboardAxis.Y
+        newPin.constraints = [billboardConstraint]
+        
         return newPin
     }
     
     func makeBadPin(pin: SCNNode) {
+        pin.constraints = []
         pin.physicsBody?.categoryBitMask = 2
         pin.childNodes[0].geometry?.firstMaterial?.diffuse.contents = UIColor.red
         pin.childNodes[1].geometry?.firstMaterial?.diffuse.contents = UIColor.red
