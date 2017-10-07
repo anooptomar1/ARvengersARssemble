@@ -89,6 +89,7 @@ extension ViewController: VirtualObjectSelectionViewControllerDelegate {
     
     func makeBadPin(pin: SCNNode) {
         pin.constraints = []
+        pin.physicsBody?.type = SCNPhysicsBodyType.dynamic
         pin.physicsBody?.categoryBitMask = 2
         pin.childNodes[0].geometry?.firstMaterial?.diffuse.contents = UIColor.red
         pin.childNodes[1].geometry?.firstMaterial?.diffuse.contents = UIColor.red
@@ -103,6 +104,7 @@ extension ViewController: VirtualObjectSelectionViewControllerDelegate {
         sceneView.scene.rootNode.enumerateChildNodes { (node, stop) -> Void in
 
             if node.physicsBody?.categoryBitMask == 1{
+//                node.removeFromParentNode()
                 makeBadPin(pin: node)
                 //Kill pins
             }
