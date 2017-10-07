@@ -52,11 +52,13 @@ class VirtualObjectInteraction: NSObject, UIGestureRecognizerDelegate, SCNPhysic
         rotationGesture.delegate = self
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTap(_:)))
+        let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(didSwipe(_:)))
         
         // Add gestures to the `sceneView`.
 //        sceneView.addGestureRecognizer(panGesture)
 //        sceneView.addGestureRecognizer(rotationGesture)
         sceneView.addGestureRecognizer(tapGesture)
+        sceneView.addGestureRecognizer(swipeGesture)
         sceneView.scene.physicsWorld.gravity = SCNVector3(0,-1,0)
         sceneView.scene.physicsWorld.contactDelegate = self
     }
@@ -192,6 +194,7 @@ class VirtualObjectInteraction: NSObject, UIGestureRecognizerDelegate, SCNPhysic
     
     func makeBadPin(pin: SCNNode) {
         pin.constraints = []
+        pin.physicsBody?.type = SCNPhysicsBodyType.dynamic
         pin.physicsBody?.categoryBitMask = 2
         pin.childNodes[0].geometry?.firstMaterial?.diffuse.contents = UIColor.red
         pin.childNodes[1].geometry?.firstMaterial?.diffuse.contents = UIColor.red
@@ -250,6 +253,15 @@ class VirtualObjectInteraction: NSObject, UIGestureRecognizerDelegate, SCNPhysic
 //            // Teleport the object to whereever the user touched the screen.
 //            translate(object, basedOn: touchLocation, infinitePlane: false)
 //        }
+    }
+    
+    @objc
+    func didSwipe(_ gesture: UISwipeGestureRecognizer) {
+        for node in sceneView.scene.rootNode.childNodes {
+            if (node.physicsBody?.categoryBitMask == 1) {
+                makeBadPin(pin: node)
+            }
+        }
     }
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
