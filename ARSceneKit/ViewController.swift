@@ -10,12 +10,21 @@ import UIKit
 import SceneKit
 import ARKit
 
-class ViewController: UIViewController, ARSCNViewDelegate {
+enum ObjType: Int {
+    case Pin = 1
+    case BadPin = 2
+    case Land = 4
+}
+
+class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDelegate {
 
     @IBOutlet var sceneView: ARSCNView!
     
     var nodeModel:SCNNode!
     let nodeName = "SketchUp"
+    var morphs: [SCNGeometry] = []
+    
+    var pinNode: SCNNode = SCNNode()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,9 +46,84 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         let modelScene = SCNScene(named:
             "art.scnassets/islands/islands.dae")!
         
+        setNodeModel(modelScene: modelScene)
+        
+        scene.physicsWorld.gravity = SCNVector3(0,-1,0)
+        scene.physicsWorld.contactDelegate = self
+        
+        //loadPinNode()
+    }
+    
+    func setNodeModel(modelScene: SCNScene) {
         nodeModel =  modelScene.rootNode.childNode(withName: nodeName, recursively: true)
         nodeModel.scale = SCNVector3(x: 0.000005, y: 0.000005, z: 0.000005)
-//        addTapGestureToSceneView()
+        //        addTapGestureToSceneView()
+        
+        let geoNode1 = nodeModel.childNode(withName:"ID5003", recursively: true)
+        let geoNode2 = nodeModel.childNode(withName:"ID5016", recursively: true)
+        let geoNode3 = nodeModel.childNode(withName:"ID5024", recursively: true)
+        let geoNode4 = nodeModel.childNode(withName:"group_0", recursively: true)
+        let geoNode5 = nodeModel.childNode(withName:"group_1", recursively: true)
+        
+        let nodeModelPhysicsBody1 = SCNPhysicsBody(type: SCNPhysicsBodyType.kinematic, shape: SCNPhysicsShape(geometry:geoNode1!.geometry!))
+        let nodeModelPhysicsBody2 = SCNPhysicsBody(type: SCNPhysicsBodyType.kinematic, shape: SCNPhysicsShape(geometry:geoNode2!.geometry!))
+        let nodeModelPhysicsBody3 = SCNPhysicsBody(type: SCNPhysicsBodyType.kinematic, shape: SCNPhysicsShape(geometry:geoNode3!.geometry!))
+        let nodeModelPhysicsBody4 = SCNPhysicsBody(type: SCNPhysicsBodyType.kinematic, shape: SCNPhysicsShape(geometry:geoNode4!.geometry!))
+        let nodeModelPhysicsBody5 = SCNPhysicsBody(type: SCNPhysicsBodyType.kinematic, shape: SCNPhysicsShape(geometry:geoNode5!.geometry!))
+        
+        geoNode1?.physicsBody = nodeModelPhysicsBody1
+        geoNode2?.physicsBody = nodeModelPhysicsBody2
+        geoNode3?.physicsBody = nodeModelPhysicsBody3
+        geoNode4?.physicsBody = nodeModelPhysicsBody4
+        geoNode5?.physicsBody = nodeModelPhysicsBody5
+        
+        geoNode1?.physicsBody?.contactTestBitMask = 1
+        geoNode1?.physicsBody?.collisionBitMask = 1
+        geoNode1?.physicsBody?.categoryBitMask = 4
+        geoNode2?.physicsBody?.contactTestBitMask = 1
+        geoNode2?.physicsBody?.collisionBitMask = 1
+        geoNode2?.physicsBody?.categoryBitMask = 4
+        geoNode3?.physicsBody?.contactTestBitMask = 1
+        geoNode3?.physicsBody?.collisionBitMask = 1
+        geoNode3?.physicsBody?.categoryBitMask = 4
+        geoNode4?.physicsBody?.contactTestBitMask = 1
+        geoNode4?.physicsBody?.collisionBitMask = 1
+        geoNode4?.physicsBody?.categoryBitMask = 4
+        geoNode5?.physicsBody?.contactTestBitMask = 1
+        geoNode5?.physicsBody?.collisionBitMask = 1
+        geoNode5?.physicsBody?.categoryBitMask = 4
+    }
+    
+    func loadPinNode() {
+        let pinScene = SCNScene(named:"art.scnassets/Polev2.dae")
+        
+        pinNode = pinScene!.rootNode
+        
+        pinNode.scale = SCNVector3(0.1, 0.1, 0.1)
+    }
+    
+    func createNewPin(x: Float, y: Float, z: Float) -> SCNNode {
+        //let newPin = pinNode.clone()
+        let newPin = SCNNode()
+        let cylinder = SCNCylinder(radius: 0.003, height:0.038)
+        let cylinderNode = SCNNode()
+        cylinderNode.geometry = cylinder
+        let tag = SCNBox(width: 0.03, height:0.015, length:0.01, chamferRadius:0)
+        let tagNode = SCNNode()
+        tagNode.geometry = tag
+        tagNode.position = SCNVector3(0,0.015,0)
+        newPin.addChildNode(cylinderNode)
+        newPin.addChildNode(tagNode)
+        
+        newPin.position = SCNVector3(x, y, z)
+        
+        let pinNodePhysicsBody = SCNPhysicsBody(type: SCNPhysicsBodyType.dynamic, shape: SCNPhysicsShape(geometry: SCNCylinder(radius: 0.003, height: 0.038)))
+        
+        newPin.physicsBody = pinNodePhysicsBody
+        newPin.physicsBody?.categoryBitMask = 1
+        newPin.physicsBody?.collisionBitMask = 5
+        
+        return newPin
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -87,7 +171,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         if let hit = hitResults.first {
             if let _ = getParent(hit.node) {
                 let cylLoc = hit.worldCoordinates
-                sceneView.scene.rootNode.addChildNode(makeCylinder(x: cylLoc.x,y: cylLoc.y,z: cylLoc.z))
+                sceneView.scene.rootNode.addChildNode(createNewPin(x: cylLoc.x,y: cylLoc.y + 0.25,z: cylLoc.z))
                 print("A wild cylinder appeared at x=\(cylLoc.x) y=\(cylLoc.y) z=\(cylLoc.z)")
                 return
             }
@@ -156,6 +240,34 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     func sessionInterruptionEnded(_ session: ARSession) {
         // Reset tracking and/or remove existing anchors if consistent tracking is required
         
+    }
+    
+    func makeBadPin(pin: SCNNode) {
+        pin.physicsBody?.categoryBitMask = 2
+        pin.geometry?.firstMaterial?.diffuse.contents = UIColor.red
+        
+    }
+    
+    func makeStuckPin(pin: SCNNode) {
+        pin.physicsBody?.type = SCNPhysicsBodyType.kinematic
+        pin.geometry?.firstMaterial?.diffuse.contents = UIColor.green
+    }
+    
+    func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
+        if (contact.nodeA.physicsBody?.categoryBitMask == 1 && contact.nodeB.physicsBody?.categoryBitMask == 1) {
+            if (contact.nodeA.physicsBody?.type == SCNPhysicsBodyType.dynamic) {
+                makeBadPin(pin: contact.nodeA)
+            }
+            if (contact.nodeB.physicsBody?.type == SCNPhysicsBodyType.dynamic) {
+                makeBadPin(pin: contact.nodeB)
+            }
+        }
+        else if (contact.nodeA.physicsBody?.categoryBitMask == 1) {
+            makeStuckPin(pin: contact.nodeA)
+        }
+        else if (contact.nodeB.physicsBody?.categoryBitMask == 1) {
+            makeStuckPin(pin: contact.nodeB)
+        }
     }
 }
 
