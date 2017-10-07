@@ -87,6 +87,13 @@ extension ViewController: VirtualObjectSelectionViewControllerDelegate {
         displayObjectLoadingUI()
     }
     
+    func makeBadPin(pin: SCNNode) {
+        pin.constraints = []
+        pin.physicsBody?.categoryBitMask = 2
+        pin.childNodes[0].geometry?.firstMaterial?.diffuse.contents = UIColor.red
+        pin.childNodes[1].geometry?.firstMaterial?.diffuse.contents = UIColor.red
+    }
+    
     func virtualObjectSelectionViewController(_: VirtualObjectSelectionViewController, didDeselectObject object: VirtualObject) {
         guard let objectIndex = virtualObjectLoader.loadedObjects.index(of: object) else {
             fatalError("Programmer error: Failed to lookup virtual object in scene.")
@@ -94,8 +101,13 @@ extension ViewController: VirtualObjectSelectionViewControllerDelegate {
 
         virtualObjectLoader.removeVirtualObject(at: objectIndex)
         sceneView.scene.rootNode.enumerateChildNodes { (node, stop) -> Void in
-            node.removeFromParentNode()
+
+            if node.physicsBody?.categoryBitMask == 1{
+                makeBadPin(pin: node)
+                //Kill pins
+            }
         }
+
     }
 
     // MARK: Object Loading UI

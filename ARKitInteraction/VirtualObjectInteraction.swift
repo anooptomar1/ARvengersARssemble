@@ -54,8 +54,8 @@ class VirtualObjectInteraction: NSObject, UIGestureRecognizerDelegate, SCNPhysic
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTap(_:)))
         
         // Add gestures to the `sceneView`.
-        sceneView.addGestureRecognizer(panGesture)
-        sceneView.addGestureRecognizer(rotationGesture)
+//        sceneView.addGestureRecognizer(panGesture)
+//        sceneView.addGestureRecognizer(rotationGesture)
         sceneView.addGestureRecognizer(tapGesture)
         sceneView.scene.physicsWorld.gravity = SCNVector3(0,-1,0)
         sceneView.scene.physicsWorld.contactDelegate = self
