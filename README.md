@@ -8,7 +8,7 @@ If so, pinTAR may be for you.  pinTAR lets\* you load up any location in Apple M
 
 Additional information on pinTAR, including the full concept deck is available: 
 
-* Restrictions apply. Void where prohibited. Not all functionality implemented.
+\* *Restrictions apply. Void where prohibited. Not all functionality implemented. ;)*
 
 ## Overview
 
