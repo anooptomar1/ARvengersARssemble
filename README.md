@@ -20,6 +20,8 @@ ARKit and this app require iOS 11 and a device with an A9 (or later) processor.
 
 ## Complile and Launch
 
+To compile, you'll need Xcode 9 or greater.  ARKit apps must be run on an actual device and won't work in the simulator.
+
 A dashed yellow square will appear in the center of your screen, along with directions at the top left.  Sweep the camera view slowly along a flat plane to identify an appropriate surface to project pinTAR.  When you've identified an ideal location, the square will have mapped itself onto the plane and will have a full edge.  If you can't find an ideal surface, as long as the square is flat along the surface, even if not completed, pinTAR will work.
 
 ## Place the Landscape
@@ -33,3 +35,11 @@ Tap anywhere on the landscape to add a pin.  Walk around the landscape to see it
 If a pin collides with an existing pin it will bounce off.
 
 Swipe left to right to dismiss all the pins.
+
+## References
+
+Apple's ARKit sample code: https://developer.apple.com/documentation/arkit/handling_3d_interaction_and_ui_controls_in_augmented_reality
+
+AppCoda SimpleARKitDemo: https://www.appcoda.com/arkit-introduction-scenekit/
+
+Twin Islands 3D Model: https://free3d.com/3d-model/twin-islands-32356.html
