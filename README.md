@@ -39,9 +39,13 @@ Swipe left to right to dismiss all the pins.
 ## Team
 
 Jimmy Lee
+
 Brian Nguyen
+
 Sarah Outhwaite
+
 Kristina Rakestraw
+
 Gabe Stocco
 
 ## References
