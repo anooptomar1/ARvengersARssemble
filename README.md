@@ -36,6 +36,14 @@ If a pin collides with an existing pin it will bounce off.
 
 Swipe left to right to dismiss all the pins.
 
+## Team
+
+Jimmy Lee
+Brian Nguyen
+Sarah Outhwaite
+Kristina Rakestraw
+Gabe Stocco
+
 ## References
 
 Apple's ARKit sample code: https://developer.apple.com/documentation/arkit/handling_3d_interaction_and_ui_controls_in_augmented_reality
