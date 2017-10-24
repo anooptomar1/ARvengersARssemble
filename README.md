@@ -6,9 +6,9 @@ Fond memories? Want to remember that great hike and share it with your friends a
 
 If so, pinTAR may be for you.  pinTAR lets\* you load up any location in Apple Maps 3D view and explore it in AR.  You can leave notes, photos and videos, or even view those that you've already taken in context using their location information.
 
-Additional information on pinTAR, including the full concept deck is available: 
-
 \* *Restrictions apply. Void where prohibited. Not all functionality implemented. ;)*
+
+
 
 ## Overview
 
@@ -24,9 +24,13 @@ To compile, you'll need Xcode 9 or greater.  ARKit apps must be run on an actual
 
 A dashed yellow square will appear in the center of your screen, along with directions at the top left.  Sweep the camera view slowly along a flat plane to identify an appropriate surface to project pinTAR.  When you've identified an ideal location, the square will have mapped itself onto the plane and will have a full edge.  If you can't find an ideal surface, as long as the square is flat along the surface, even if not completed, pinTAR will work.
 
+[![PlacingIslands](https://thumbs.gfycat.com/ConventionalIdioticBeetle-size_restricted.gif)](https://gfycat.com/ConventionalIdioticBeetle)
+
 ## Place the Landscape
 
 Once you have identified a surface to preject onto, press the (+) button and select "islands" to place the landscape at the location of the square.
+
+[![PlacingIslands](https://thumbs.gfycat.com/ReasonableRipeHeifer-size_restricted.gif)](https://gfycat.com/ReasonableRipeHeifer)
 
 ## Add pins
 
@@ -35,6 +39,8 @@ Tap anywhere on the landscape to add a pin.  Walk around the landscape to see it
 If a pin collides with an existing pin it will bounce off.
 
 Swipe left to right to dismiss all the pins.
+
+[![AddingPins](https://thumbs.gfycat.com/MessyParchedGermanwirehairedpointer-size_restricted.gif)](https://gfycat.com/MessyParchedGermanwirehairedpointer)
 
 ## Team
 
