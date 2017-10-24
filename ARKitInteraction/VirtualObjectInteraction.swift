@@ -1,6 +1,4 @@
 /*
-See LICENSE folder for this sample’s licensing information.
-
 Abstract:
 Coordinates movement and gesture interactions with virtual objects.
 */
@@ -240,19 +238,14 @@ class VirtualObjectInteraction: NSObject, UIGestureRecognizerDelegate, SCNPhysic
             if let hit = hitResults.first {
                 if let _ = getParent(hit.node) {
                     let cylLoc = hit.worldCoordinates
-//                    sceneView.scene.rootNode.addChildNode(makeCylinder(x: cylLoc.x,y: cylLoc.y,z: cylLoc.z))
                     sceneView.scene.rootNode.addChildNode(createNewPin(x: cylLoc.x,y: cylLoc.y + 0.25,z: cylLoc.z))
 
                     return
                 }
             }
             
-//            selectedObject = tappedObject
         }
-//        } else if let object = selectedObject {
-//            // Teleport the object to whereever the user touched the screen.
-//            translate(object, basedOn: touchLocation, infinitePlane: false)
-//        }
+
     }
     
     @objc

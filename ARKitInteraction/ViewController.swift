@@ -1,6 +1,4 @@
 /*
-See LICENSE folder for this sample’s licensing information.
-
 Abstract:
 Main view controller for the AR experience.
 */
@@ -89,12 +87,6 @@ class ViewController: UIViewController, SCNPhysicsContactDelegate {
         // Set the delegate to ensure this gesture is only used when there are no virtual objects in the scene.
         tapGesture.delegate = self
 
-//        sceneView.addGestureRecognizer(tapGesture)
-        
-//        let modelScene = SCNScene(named:"Models.scnassets/islands/islands.dae")!
-        
-//        nodeModel =  modelScene.rootNode.childNode(withName: nodeName, recursively: true)
-//        nodeModel.scale = SCNVector3(x: 0.000005, y: 0.000005, z: 0.000005)
     }
     
     func makeCylinder(x: Float = 0, y: Float = 0, z: Float = -0.2) -> SCNNode{
@@ -105,39 +97,6 @@ class ViewController: UIViewController, SCNPhysicsContactDelegate {
         cylinderNode.position = SCNVector3(x,y,z)
         return cylinderNode
     }
-    
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        let location = touches.first!.location(in: sceneView)
-//        // Let's test if a 3D Object was touch
-//        var hitTestOptions = [SCNHitTestOption: Any]()
-//        hitTestOptions[SCNHitTestOption.boundingBoxOnly] = true
-//
-//        //If we collided with an object, add a cylinder
-//        //This will be a pin eventually
-//        let hitResults: [SCNHitTestResult]  = sceneView.hitTest(location, options: hitTestOptions)
-//        if let hit = hitResults.first {
-//            if let _ = getParent(hit.node) {
-//                let cylLoc = hit.worldCoordinates
-//                sceneView.scene.rootNode.addChildNode(makeCylinder(x: cylLoc.x,y: cylLoc.y,z: cylLoc.z))
-//                print("A wild cylinder appeared at x=\(cylLoc.x) y=\(cylLoc.y) z=\(cylLoc.z)")
-//                return
-//            }
-//        }
-//
-//        // No object was touch? Try feature points
-//        let hitResultsFeaturePoints: [ARHitTestResult]  = sceneView.hitTest(location, types: .featurePoint)
-//
-//        if let hit = hitResultsFeaturePoints.first {
-//
-//            // Get the rotation matrix of the camera
-//            let rotate = simd_float4x4(SCNMatrix4MakeRotation(sceneView.session.currentFrame!.camera.eulerAngles.y, 0, 0, 0))
-//
-//            // Combine the matrices
-//            let finalTransform = simd_mul(hit.worldTransform, rotate)
-//            sceneView.session.add(anchor: ARAnchor(transform: finalTransform))
-//        }
-//
-//    }
     
     func getParent(_ nodeFound: SCNNode?) -> SCNNode? {
         if let node = nodeFound {

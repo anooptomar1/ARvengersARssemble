@@ -1,6 +1,4 @@
 /*
-See LICENSE folder for this sample’s licensing information.
-
 Abstract:
 Methods on the main view controller for handling virtual object loading and movement
 */
